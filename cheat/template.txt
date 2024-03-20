@@ -1,0 +1,23 @@
+EXTERNALS
+
+base_address = get_module(pid, L"...");
+health_ptr = base_address + 0x320E058;
+
+while (true) {
+   health_addr = rpm(health_ptr + 0x2A0);
+   health_addr = rpm(health_addr + 0x230);
+   ...
+   health_addr += 0x10;
+   
+   std::cout << health_addr;
+   Sleep(1000);
+} 
+
+INTERNAL
+
+base_address = get_module(pid, L"...");
+health_ptr = base_address + 0x320E058;
+
+uintptr_t* address_to_deref = (health_ptr + 0x2A0);
+uintptr_t address = *address_to_deref;
+address += 0x230;
