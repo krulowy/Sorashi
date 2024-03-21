@@ -29,6 +29,12 @@
     <ClInclude Include="cheat\offsets.cpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cheat\offsets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cheat\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="cheat\template.txt" />

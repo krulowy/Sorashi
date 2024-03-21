@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <TlHelp32.h>
 #include <cstdint>
-#include "offsets.cpp"
+#include "offsets.h"
 
 int main()
 {

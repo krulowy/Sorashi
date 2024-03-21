@@ -25,6 +25,8 @@
   <ItemGroup>
     <ClInclude Include="cheat\memory.h" />
     <ClInclude Include="cheat\offsets.cpp" />
+    <ClInclude Include="cheat\offsets.h" />
+    <ClInclude Include="cheat\types.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="cheat\template.txt" />

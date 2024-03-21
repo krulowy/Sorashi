@@ -30,5 +30,7 @@
 *.exe
 *.out
 *.app
+x64/
+.vs/
 cheat/vc140.pdb
 cheat/main.pdb
