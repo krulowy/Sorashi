@@ -20,6 +20,16 @@ bool read_memory(uintptr_t read_address, T* buffer)
     return ReadProcessMemory(handle, (LPCVOID)read_address, buffer, sizeof(T), &read);
 }
 
+template <typename T>
+bool read_memory(uintptr_t read_address, T* buffer, size_t size)
+{
+    if (read_address == 0) {
+        return false;
+    }
+    SIZE_T read;
+    return ReadProcessMemory(handle, (LPCVOID)read_address, buffer, size, &read);
+}
+
 // wrapper to handle pointer arithmetic easily
 struct address_t {
     address_t() : address(0) {}
