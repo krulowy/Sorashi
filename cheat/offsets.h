@@ -29,9 +29,6 @@ inline void get_offsets() {
 
         address_t m_Player = base_addr;
         m_Player = m_Player.Offset(0x320DFC8).Deref().Offset(0x320).Deref().Offset(0xC70).Deref();
-        address_t m_healthtest = base_addr;
-        m_healthtest = m_healthtest.Offset(0x4D2AF0);
-        std::cout << "m_healthtest: " << m_healthtest.address << "\n";
 
         if (!m_Player.Valid()) {
             std::cout << "player_addr is invalid\n";
