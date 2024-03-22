@@ -22,6 +22,26 @@ class jump_settings_t {
 
 };
 
+struct Enemy_t {
+	char pad[0x60];
+	void* puppet;
+	void* m_puppetTransform;
+	void* attributeSystem;
+	void* combatTarget;
+	void* behaviour;
+	void* enemyCtx;
+};
+
+class attributeSystem_t {
+public:
+	char pad_0x0000[0x10]; //0x0000
+	float Health;
+	float MaxHealth;
+	float CriticalHealth;
+	float CriticalHealthStunDuration;
+};
+
+
 
 /*<Elements>
 <Element Offset = "16" Vartype = "Float" Bytesize = "4" OffsetHex = "00000010" Description = "JumpForce" DisplayMethod = "unsigned integer" / >

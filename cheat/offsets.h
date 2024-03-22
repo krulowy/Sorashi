@@ -12,15 +12,6 @@
 const DWORD pid = get_process_id(L"Metal.exe");
 const address_t client = get_module_base(pid, L"GameAssembly.dll");
 
-struct Enemy_t {
-    char pad[0x60];
-    void* puppet;
-    void* attributeSystem;
-    void* combatTarget;
-    void* behaviour;
-    void* enemyCtx;
-};
-
 inline void get_offsets() {
 
     address_t base_addr = client;
@@ -56,8 +47,8 @@ inline void get_offsets() {
         address_t m_fpController = m_Player;
         m_fpController.Offset(0x50).Deref();
 
-        address_t m_enemybehavior = m_fpController;
-        m_enemybehavior.Offset(0x1F8).Deref();
+        address_t m_enemybehavior = m_Player;
+        m_enemybehavior.Offset(0x58).Deref();
 
         address_t m_activeEnemiesItems = m_enemybehavior;
         m_activeEnemiesItems.Offset(0x10).Deref().Offset(0x10).Deref();
@@ -80,22 +71,35 @@ inline void get_offsets() {
         std::cout << "m_activeEnemiesItems: " << m_activeEnemiesItemsCountAddr.address << "\n";
         std::cout << "m_activeEnemiesItems: " << std::dec << enemyCount << "\n";
 
-        // size of the array in bytes will be : sizeof(uintptr_t) * enemyCount
-        // uintptr_t enemyPtrs[enemyCount]; not allowed
-        std::vector<Enemy_t*> enemyPtrs(enemyCount);
-        if (enemyCount) {
-            read_memory(m_activeEnemiesItemsArrayAddr.address, enemyPtrs.data(), enemyCount * sizeof(uintptr_t));
+        std::vector<Enemy_t> enemyPtrs(enemyCount);
 
-            for (int i = 0; i < enemyCount; i++) {
-                if (enemyPtrs[i] != 0)
-                    std::cout << "enemy " << std::dec << i << " : " << std::hex << enemyPtrs[i] << "\n";
+        for (int i = 0; i < enemyCount; i++) {
+		    // current enemy ptr address
+			address_t enemyAddr = m_activeEnemiesItemsArrayAddr; // address of the base of the array
+
+            enemyAddr = enemyAddr.Get<address_t>(i * 0x8);
+            if (enemyAddr.Valid()) {
+                enemyPtrs[i] = enemyAddr.Get<Enemy_t>();
+            }
+            std::cout << "addr : " << std::hex << enemyAddr.address << "\n";
+            // address of the enemy pointer being read
+            // and we put it into our vector
+
+            // let's say we want to read health now, 
+            // attributeSystem is a pointer, and that's a bit trickier
+            // because when you read enemy_t, you only read all the bytes located at enemyAddr, rpm doesn't read what pointers point to (because they're at a completely different address in memory)
+            // so if there is a pointer in a class, you will need to read it yourself
+            address_t attrAddr = enemyPtrs[i].attributeSystem;
+            std::cout << "attrAddr : " << std::hex << attrAddr.address << "\n";
+            attributeSystem_t enemyAttr = attrAddr.Get<attributeSystem_t>();
+            std::cout << "enemy " << std::dec << i << " health " << enemyAttr.Health << " " << enemyAttr.MaxHealth << "\n";
 
                 // READ TRANSFORM
 
                 // enemyPtrs[i].puppet is wrong externally and won't yield results
                 // you need to RPM it!
             }
-        }
+        
 
         jump_settings_t multistrafe = m_jumpSettings.Get<jump_settings_t>();
         multistrafe.ForwardVelocityMultiplier = 2.0f;
