@@ -79,7 +79,7 @@ int main()
         // the initial address we want to do our operations on
        
 
-        /*
+        
         if (health_addr.Valid()) {
 
             float inf_health = 100.0f;
