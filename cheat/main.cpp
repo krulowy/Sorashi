@@ -32,7 +32,7 @@ int main()
     get_offsets();
 
     while (true) {
-        #if 0
+        if 0
         uintptr_t result;
         uintptr_t read_address = client + 0x320DFC8;
         uintptr_t health_address;
