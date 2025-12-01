@@ -97,7 +97,7 @@ int main()
         }
         else {
             // oh no..
-        }*/
+        }
 
         Sleep(30);
     }
