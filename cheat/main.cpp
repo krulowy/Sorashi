@@ -10,7 +10,7 @@ int main()
     std::atexit([]() {std::cin.get(); });
     if (pid == 0)
     {
-        std::cout << "nigga Failed to find the process.\n";
+        std::cout << "Failed to find the process.\n";
         std::cin.get();
         return 1;
     }
